@@ -12,6 +12,7 @@ public class Alumno {
         this.codigoDeAlumno = codigoDeAlumno;
     }
 
+
     public String getNombre() {
         return nombre;
     }
@@ -22,6 +23,18 @@ public class Alumno {
 
     public Integer getCodigoDeAlumno() {
         return codigoDeAlumno;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public void setCodigoDeAlumno(Integer codigoDeAlumno) {
+        this.codigoDeAlumno = codigoDeAlumno;
     }
 
     @Override
