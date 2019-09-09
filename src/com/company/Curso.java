@@ -145,5 +145,7 @@ public class Curso {
         alumnosInscriptos.removeAll(alumnosAEliminar);
         System.out.println("El alumno se ha eliminado");
     }
+
+
 }
 

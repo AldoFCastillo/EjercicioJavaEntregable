@@ -77,13 +77,6 @@ public class DigitalHouseManager {
         } else return false;
     }
 
-    //TODO
-    public Boolean inscripcionRepetida(Integer codigo) {
-        if (!buscadorDeAlumnos(codigo).isEmpty()) {
-            System.out.println("El/La alumno/a ya fue ingresado previamente");
-            return true;
-        } else return false;
-    }
 
     /**
      * Metodos para buscar cursos, profesores y alumnos
@@ -97,9 +90,32 @@ public class DigitalHouseManager {
             if (unCurso.getCodigoDeCurso().equals(codigo)) {
                 cursoEncontrado.add(unCurso);
                 break;
-            } else System.out.println("No se pudo hallar el curso");
+            }
         }
         return cursoEncontrado;
+    }
+
+
+    public List<ProfesorTitular> buscadorDeProfesoresTitulares(Integer codigo) {
+        List<ProfesorTitular> profesorEncontrado = new ArrayList<>();
+        for (Profesor unProfesor : listaDeProfesores) {
+            if (unProfesor.getCodigoDeProfesor().equals(codigo)) {
+                profesorEncontrado.add((ProfesorTitular) unProfesor);
+                break;
+            }
+        }
+        return profesorEncontrado;
+    }
+
+    public List<ProfesorAdjunto> buscadorDeProfesoresAdjuntos(Integer codigo) {
+        List<ProfesorAdjunto> profesorEncontrado = new ArrayList<>();
+        for (Profesor unProfesor : listaDeProfesores) {
+            if (unProfesor.getCodigoDeProfesor().equals(codigo)) {
+                profesorEncontrado.add((ProfesorAdjunto) unProfesor);
+                break;
+            }
+        }
+        return profesorEncontrado;
     }
 
     public List<Profesor> buscadorDeProfesores(Integer codigo) {
@@ -108,7 +124,7 @@ public class DigitalHouseManager {
             if (unProfesor.getCodigoDeProfesor().equals(codigo)) {
                 profesorEncontrado.add(unProfesor);
                 break;
-            } else System.out.println("No se pudo hallar el/la profesor/a");
+            }
         }
         return profesorEncontrado;
     }
@@ -119,7 +135,7 @@ public class DigitalHouseManager {
             if (unAlumno.getCodigoDeAlumno().equals(codigo)) {
                 alumnoEncontrado.add(unAlumno);
                 break;
-            } else System.out.println("No se pudo hallar el/la alumno/a");
+            }
         }
         return alumnoEncontrado;
     }
@@ -194,7 +210,7 @@ public class DigitalHouseManager {
      * @param codigoProfesor
      */
     public void bajaProfesor(Integer codigoProfesor) {
-        if (buscadorDeProfesores(codigoProfesor).isEmpty()) {
+        if (buscadorDeProfesores(codigoProfesor).isEmpty() && buscadorDeProfesores(codigoProfesor).isEmpty()) {
             System.out.println("No se pudo realizar la operacion");
         } else {
             listaDeProfesores.remove(buscadorDeProfesores(codigoProfesor).get(0));
@@ -213,7 +229,7 @@ public class DigitalHouseManager {
         if (!alumnoRepetido(codigoAlumno)) {
             Alumno unAlumno = new Alumno(nombre, apellido, codigoAlumno);
             listaDeAlumnos.add(unAlumno);
-            System.out.println("Alumnor/a ingresado/a correctamente");
+            System.out.println("Alumno/a ingresado/a correctamente");
         } else System.out.println("No se pudo realizar la operacion");
     }
 
@@ -241,7 +257,7 @@ public class DigitalHouseManager {
         if (buscadorDeCursos(codigoCurso).get(0).agregarUnAlumno(buscadorDeAlumnos(codigoAlumno).get(0))) {
             Inscripcion nuevaInscripcion = new Inscripcion(buscadorDeAlumnos(codigoAlumno).get(0), buscadorDeCursos(codigoCurso).get(0));
             listaDeInscripciones.add(nuevaInscripcion);
-            System.out.println("Alumno/a " + buscadorDeAlumnos(codigoAlumno).get(0) + " fue inscripto/a en el curso " + buscadorDeCursos(codigoCurso).get(0));
+            System.out.println("Alumno/a " + buscadorDeAlumnos(codigoAlumno).get(0).getCodigoDeAlumno() + " fue inscripto/a en el curso " + buscadorDeCursos(codigoCurso).get(0).getNombre());
         }
     }
 
@@ -253,11 +269,11 @@ public class DigitalHouseManager {
      * @param codigoProfesorAdjunto
      */
     public void asignarProfesores(Integer codigoCurso, Integer codigoProfesorTitular, Integer codigoProfesorAdjunto) {
-        if (!(buscadorDeCursos(codigoCurso).isEmpty()) && !(buscadorDeProfesores(codigoProfesorTitular).isEmpty())) {
-            buscadorDeCursos(codigoCurso).get(0).setProfesorTitular((ProfesorTitular) buscadorDeProfesores(codigoProfesorTitular));
+        if (!(buscadorDeCursos(codigoCurso).isEmpty()) && !(buscadorDeProfesoresTitulares(codigoProfesorTitular).isEmpty())) {
+            buscadorDeCursos(codigoCurso).get(0).setProfesorTitular(buscadorDeProfesoresTitulares(codigoProfesorTitular).get(0));
         } else System.out.println("No se pudo asignar");
-        if (!(buscadorDeCursos(codigoCurso).isEmpty()) && !(buscadorDeProfesores(codigoProfesorAdjunto).isEmpty())) {
-            buscadorDeCursos(codigoCurso).get(0).setProfesorAdjunto((ProfesorAdjunto) buscadorDeProfesores(codigoProfesorAdjunto));
+        if (!(buscadorDeCursos(codigoCurso).isEmpty()) && !(buscadorDeProfesoresAdjuntos(codigoProfesorAdjunto).isEmpty())) {
+            buscadorDeCursos(codigoCurso).get(0).setProfesorAdjunto(buscadorDeProfesoresAdjuntos(codigoProfesorAdjunto).get(0));
         } else System.out.println("No se pudo asignar");
     }
 
