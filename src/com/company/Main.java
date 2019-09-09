@@ -35,5 +35,19 @@ public class Main {
         System.out.println("---------------------------------------------");
 
         sede1.bajaCurso(20001);
+
+        /**
+         * Parte K
+         * ¿Cómo modificaría el diagrama de clases para que se le pueda consultar a un alumno a qué
+         * cursos está inscripto?
+         *
+         * A la clase Alumno se le podría sumar como atributo una lista de cursosInscriptos.
+         * Se podria agregar cursos a esta lista<Curso> mediante un metodo(en la clase Alumno) que reciba el objeto de tipo Curso
+         * y lo agregue mediante un List<Curso>.add. Este metodo se podría llamar desde el constructor de la clase Inscripcion.
+         * Mediante un metodo get se podria devolver esta lista<Curso>.
+         *
+         *
+         *
+         */
     }
 }
