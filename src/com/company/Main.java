@@ -1,40 +1,44 @@
 package com.company;
 
+import java.io.IOException;
+
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // write your code here
         DigitalHouseManager sede1 = new DigitalHouseManager();
-        sede1.altaProfesorTitular("Antonio", "Rios", 3001, "Full Stack");
+        sede1.altaProfesorTitular("Lia", "Crucet", 3001, "Full Stack");
         sede1.altaProfesorTitular("Ozzy", "Osbourne", 3002, "Android");
         sede1.altaProfesorAdjunto("Leo", "Mattioli", 3003, 2);
         sede1.altaProfesorAdjunto("Lemmy", "Kilmister", 3004, 1);
         System.out.println("---------------------------------------------");
 
         sede1.altaCurso("Full Stack", 20001, 3);
-        sede1.altaCurso("Android",20002,2);
+        sede1.altaCurso("Android", 20002, 2);
         System.out.println("---------------------------------------------");
 
-        sede1.asignarProfesores(20001,3001,3003);
-        sede1.asignarProfesores(20002,3002,3004);
+        sede1.asignarProfesores(20001, 3001, 3003);
+        sede1.asignarProfesores(20002, 3002, 3004);
         System.out.println("---------------------------------------------");
 
-        sede1.altaAlumno("Aldo","Castillo",1001);
-        sede1.altaAlumno("David","Carradine",1002);
-        sede1.altaAlumno("Bela","Lugosi",1003);
+        sede1.altaAlumno("Aldo", "Castillo", 1001);
+        sede1.altaAlumno("David", "Carradine", 1002);
+        sede1.altaAlumno("Tura", "Satana", 1003);
         System.out.println("---------------------------------------------");
 
-        sede1.inscribirAlumno(1002,20001);
-        sede1.inscribirAlumno(1003,20001);
-        sede1.inscribirAlumno(1003,20002);
-        sede1.inscribirAlumno(1002,20002);
-        sede1.inscribirAlumno(1001,20002);
+        sede1.inscribirAlumno(1002, 20001);
+        sede1.inscribirAlumno(1003, 20001);
+        sede1.inscribirAlumno(1003, 20002);
+        sede1.inscribirAlumno(1002, 20002);
+        sede1.inscribirAlumno(1001, 20002);
         System.out.println("---------------------------------------------");
 
         sede1.bajaProfesor(3003);
         System.out.println("---------------------------------------------");
 
         sede1.bajaCurso(20001);
+        System.out.println("----------------PRUEBA------------------");
+        LectorDeArchivosCSV lectorcsv = new LectorDeArchivosCSV();
 
         /**
          * Parte K
@@ -49,5 +53,18 @@ public class Main {
          *
          *
          */
+
+        sede1.altaCurso("Android Mobile", 20003, 30);
+        sede1.asignarProfesores(20003, 3001, 3004);
+        for (Alumno unAlumno : lectorcsv.lector()) {
+            sede1.altaAlumno(unAlumno.getNombre(), unAlumno.getApellido(), unAlumno.getCodigoDeAlumno());
+            sede1.inscribirAlumno(unAlumno.getCodigoDeAlumno(), 20003);
+        }
+        /*
+        for (Alumno unAlumno : sede1.buscadorDeCursos(20003).get(0).getAlumnosInscriptos()){
+            System.out.println(unAlumno.getCodigoDeAlumno()+" "+unAlumno.getNombre()+"-"+unAlumno.getApellido());
+        }*/
+
+
     }
 }

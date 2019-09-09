@@ -101,7 +101,6 @@ public class Curso {
      *
      * @return
      */
-
     public Boolean hayCupoDisponible() {
         Boolean hayCupo = true;
         if (!(cupoMaximoDealumnos > alumnosInscriptos.size())) {
@@ -117,7 +116,6 @@ public class Curso {
      * @param unAlumno
      * @return
      */
-
     public Boolean alumnoRepetido(Alumno unAlumno) {
         Boolean repetido = false;
         for (Alumno otroAlumno : alumnosInscriptos) {
