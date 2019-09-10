@@ -37,8 +37,8 @@ public class Main {
         System.out.println("---------------------------------------------");
 
         sede1.bajaCurso(20001);
-        System.out.println("----------------PRUEBA------------------");
-        LectorDeArchivosCSV lectorcsv = new LectorDeArchivosCSV();
+
+
 
         /**
          * Parte K
@@ -53,9 +53,13 @@ public class Main {
          *
          *
          */
-
+        System.out.println();
+        System.out.println("----------------------DESTACADO OPCION 1-----------------------");
+        LectorDeArchivosCSV lectorcsv = new LectorDeArchivosCSV();
         sede1.altaCurso("Android Mobile", 20003, 30);
         sede1.asignarProfesores(20003, 3001, 3004);
+        System.out.println();
+        System.out.println("--------Creacion e inscripcion de listadoDeAlumnos.csv---------");
         for (Alumno unAlumno : lectorcsv.lector()) {
             sede1.altaAlumno(unAlumno.getNombre(), unAlumno.getApellido(), unAlumno.getCodigoDeAlumno());
             sede1.inscribirAlumno(unAlumno.getCodigoDeAlumno(), 20003);

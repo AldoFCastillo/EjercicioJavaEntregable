@@ -10,6 +10,10 @@ public class DigitalHouseManager {
     private List<Curso> listaDeCursos;
     private List<Inscripcion> listaDeInscripciones;
 
+    /**
+     * Constructor de DigitalHouseManager
+     */
+
     public DigitalHouseManager() {
         this.listaDeAlumnos = new ArrayList<>();
         this.listaDeProfesores = new ArrayList<>();
@@ -65,14 +69,14 @@ public class DigitalHouseManager {
 
     public Boolean profesorRepetido(Integer codigo) {
         if (!buscadorDeProfesores(codigo).isEmpty()) {
-            System.out.println("El/La profesor/a ya fue ingresado previamente");
+            System.out.println("El codigo del profesor/a ya fue ingresado previamente");
             return true;
         } else return false;
     }
 
     public Boolean alumnoRepetido(Integer codigo) {
         if (!buscadorDeAlumnos(codigo).isEmpty()) {
-            System.out.println("El/La alumno/a ya fue ingresado previamente");
+            System.out.println("El codigo de alumno/a ya fue ingresado previamente");
             return true;
         } else return false;
     }
@@ -166,7 +170,7 @@ public class DigitalHouseManager {
         if (buscadorDeCursos(codigoCurso).isEmpty()) {
             System.out.println("No se pudo realizar la operacion");
         } else {
-            listaDeCursos.remove(buscadorDeCursos(codigoCurso).get(0));
+            listaDeCursos.removeAll(buscadorDeCursos(codigoCurso));
             System.out.println("Curso eliminado");
         }
     }
@@ -183,7 +187,7 @@ public class DigitalHouseManager {
         if (!profesorRepetido(codigoProfesor)) {
             Profesor unProfesor = new ProfesorAdjunto(nombre, apellido, 0, codigoProfesor, cantidadDeHoras);
             listaDeProfesores.add(unProfesor);
-            System.out.println("Profesor/a ingresado correctamente");
+            System.out.println("Profesor/a ingresado/a correctamente");
         } else System.out.println("No se pudo realizar la operacion");
 
     }
@@ -200,7 +204,7 @@ public class DigitalHouseManager {
         if (!profesorRepetido(codigoProfesor)) {
             Profesor unProfesor = new ProfesorTitular(nombre, apellido, 0, codigoProfesor, especialidad);
             listaDeProfesores.add(unProfesor);
-            System.out.println("Profesor/a ingresado correctamente");
+            System.out.println("Profesor/a ingresado/a correctamente");
         } else System.out.println("No se pudo realizar la operacion");
     }
 
@@ -210,10 +214,10 @@ public class DigitalHouseManager {
      * @param codigoProfesor
      */
     public void bajaProfesor(Integer codigoProfesor) {
-        if (buscadorDeProfesores(codigoProfesor).isEmpty() && buscadorDeProfesores(codigoProfesor).isEmpty()) {
+        if (buscadorDeProfesores(codigoProfesor).isEmpty()) {
             System.out.println("No se pudo realizar la operacion");
         } else {
-            listaDeProfesores.remove(buscadorDeProfesores(codigoProfesor).get(0));
+            listaDeProfesores.removeAll(buscadorDeProfesores(codigoProfesor));
             System.out.println("Profesor/a eliminado/a");
         }
     }
@@ -242,7 +246,7 @@ public class DigitalHouseManager {
         if (buscadorDeAlumnos(codigoAlumno).isEmpty()) {
             System.out.println("No se pudo realizar la operacion");
         } else {
-            listaDeAlumnos.remove(buscadorDeAlumnos(codigoAlumno).get(0));
+            listaDeAlumnos.removeAll(buscadorDeAlumnos(codigoAlumno));
             System.out.println("Alumno/a eliminado/a");
         }
     }
@@ -271,10 +275,10 @@ public class DigitalHouseManager {
     public void asignarProfesores(Integer codigoCurso, Integer codigoProfesorTitular, Integer codigoProfesorAdjunto) {
         if (!(buscadorDeCursos(codigoCurso).isEmpty()) && !(buscadorDeProfesoresTitulares(codigoProfesorTitular).isEmpty())) {
             buscadorDeCursos(codigoCurso).get(0).setProfesorTitular(buscadorDeProfesoresTitulares(codigoProfesorTitular).get(0));
-        } else System.out.println("No se pudo asignar");
+        } else System.out.println("No se pudo asignar profesor/a titular");
         if (!(buscadorDeCursos(codigoCurso).isEmpty()) && !(buscadorDeProfesoresAdjuntos(codigoProfesorAdjunto).isEmpty())) {
             buscadorDeCursos(codigoCurso).get(0).setProfesorAdjunto(buscadorDeProfesoresAdjuntos(codigoProfesorAdjunto).get(0));
-        } else System.out.println("No se pudo asignar");
+        } else System.out.println("No se pudo asignar profesor/a adjunto");
     }
 
 }

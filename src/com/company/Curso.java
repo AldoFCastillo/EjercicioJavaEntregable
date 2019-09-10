@@ -10,8 +10,14 @@ public class Curso {
     private ProfesorTitular profesorTitular;
     private ProfesorAdjunto profesorAdjunto;
     private List<Alumno> alumnosInscriptos;
-
     private Integer cupoMaximoDealumnos;
+
+    /**
+     * Constructor de Curso
+     *
+     * @param nombre
+     * @param codigoDeCurso
+     */
 
     public Curso(String nombre, Integer codigoDeCurso) {
         this.nombre = nombre;
@@ -43,20 +49,20 @@ public class Curso {
         return cupoMaximoDealumnos;
     }
 
+
     public void setCantidadDeAlumnosPermitidos(Integer cantidadDeAlumnosPermitidos) {
         this.cupoMaximoDealumnos = cantidadDeAlumnosPermitidos;
     }
 
     public void setProfesorTitular(ProfesorTitular profesorTitular) {
         this.profesorTitular = profesorTitular;
-        System.out.println("Profesor titular asignado al curso con exito");
+        System.out.println("Profesor/a titular asignado/a al curso con exito");
     }
 
     public void setProfesorAdjunto(ProfesorAdjunto profesorAdjunto) {
         this.profesorAdjunto = profesorAdjunto;
-        System.out.println("Profesor adjunto asignado al curso con exito");
+        System.out.println("Profesor/a adjunto asignado/a al curso con exito");
     }
-
 
     public void setAlumnosInscriptos(List<Alumno> alumnosInscriptos) {
         this.alumnosInscriptos = alumnosInscriptos;
@@ -88,12 +94,13 @@ public class Curso {
      */
     public Boolean agregarUnAlumno(Alumno unAlumno) {
 
-        if (!hayCupoDisponible() && !alumnoRepetido(unAlumno)) {
+        if (!hayCupoDisponible() || alumnoRepetido(unAlumno)) {
             System.out.println("No pudo realizarse la operacion");
             return false;
+        } else {
+            alumnosInscriptos.add(unAlumno);
+            return true;
         }
-        alumnosInscriptos.add(unAlumno);
-        return true;
     }
 
     /**
@@ -103,7 +110,7 @@ public class Curso {
      */
     public Boolean hayCupoDisponible() {
         Boolean hayCupo = true;
-        if (!(cupoMaximoDealumnos > alumnosInscriptos.size())) {
+        if (!(alumnosInscriptos.size() < cupoMaximoDealumnos)) {
             hayCupo = false;
             System.out.println("No hay cupo disponible");
         }
@@ -121,7 +128,7 @@ public class Curso {
         for (Alumno otroAlumno : alumnosInscriptos) {
             if (otroAlumno.equals(unAlumno)) {
                 repetido = true;
-                System.out.println("EL alumno ya fue inscripto previamente a este curso");
+                System.out.println("EL/la alumno/a ya fue inscripto/a previamente a este curso");
                 break;
             }
         }
@@ -135,13 +142,13 @@ public class Curso {
      */
     public void eliminarAlumno(Alumno unAlumno) {
         List<Alumno> alumnosAEliminar = new ArrayList<>();
-        for (Alumno otroAlumno : alumnosInscriptos) {
-            if (otroAlumno.equals(unAlumno)) {
-                alumnosAEliminar.add(unAlumno);
-            }
+        if (alumnoRepetido(unAlumno)) {
+            alumnosAEliminar.add(unAlumno);
+            alumnosInscriptos.removeAll(alumnosAEliminar);
+            System.out.println("El/la alumno/a se ha eliminado");
+        } else {
+            System.out.println("No pudo realizarse la operacion");
         }
-        alumnosInscriptos.removeAll(alumnosAEliminar);
-        System.out.println("El alumno se ha eliminado");
     }
 
 

@@ -1,12 +1,17 @@
 package com.company;
 
-import java.util.List;
-
 public class Alumno {
 
     private String nombre;
     private String apellido;
     private Integer codigoDeAlumno;
+
+    /**
+     * Constructor de Alumno
+     * @param nombre
+     * @param apellido
+     * @param codigoDeAlumno
+     */
 
     public Alumno(String nombre, String apellido, Integer codigoDeAlumno) {
         this.nombre = nombre;

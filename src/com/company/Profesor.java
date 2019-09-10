@@ -7,6 +7,14 @@ public class Profesor {
     private Integer antiguedad;
     private Integer codigoDeProfesor;
 
+    /**
+     * Constructor de Profesor
+     * @param nombre
+     * @param apellido
+     * @param antiguedad
+     * @param codigoDeProfesor
+     */
+
     public Profesor(String nombre, String apellido, Integer antiguedad, Integer codigoDeProfesor) {
         this.nombre = nombre;
         this.apellido = apellido;

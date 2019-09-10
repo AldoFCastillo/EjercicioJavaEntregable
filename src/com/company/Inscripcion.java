@@ -8,6 +8,12 @@ public class Inscripcion {
     private Curso curso;
     private Date fechaDelDia;
 
+    /**
+     * Constructor de Inscripcion
+     * @param alumno
+     * @param curso
+     */
+
     public Inscripcion(Alumno alumno, Curso curso) {
         this.alumno = alumno;
         this.curso = curso;

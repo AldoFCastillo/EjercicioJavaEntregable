@@ -1,15 +1,13 @@
 package com.company;
-
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import com.opencsv.*;
-import org.apache.commons.lang3.*;
+/**
+ * Metodo para convertir listadoDeAlumnos.csv en una Lista de Alumnos
+ */
 
 public class LectorDeArchivosCSV {
     public static final String SEPARATOR = ",";
