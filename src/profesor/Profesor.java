@@ -1,4 +1,4 @@
-package com.company;
+package profesor;
 
 public class Profesor {
 
@@ -9,6 +9,7 @@ public class Profesor {
 
     /**
      * Constructor de Profesor
+     *
      * @param nombre
      * @param apellido
      * @param antiguedad
@@ -58,5 +59,10 @@ public class Profesor {
     public boolean equals(Object obj) {
         Profesor unProfesor = (Profesor) obj;
         return unProfesor.getCodigoDeProfesor().equals(this.codigoDeProfesor);
+    }
+
+    @Override
+    public String toString() {
+        return nombre + " " + apellido + " (Codigo: " + codigoDeProfesor + ")";
     }
 }

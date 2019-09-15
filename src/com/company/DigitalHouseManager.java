@@ -1,7 +1,12 @@
 package com.company;
 
+import profesor.Profesor;
+import profesor.ProfesorAdjunto;
+import profesor.ProfesorTitular;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class DigitalHouseManager {
 
@@ -9,6 +14,9 @@ public class DigitalHouseManager {
     private List<Profesor> listaDeProfesores;
     private List<Curso> listaDeCursos;
     private List<Inscripcion> listaDeInscripciones;
+    private Impresora unaImpresora;
+    private Scanner teclado;
+
 
     /**
      * Constructor de DigitalHouseManager
@@ -19,7 +27,10 @@ public class DigitalHouseManager {
         this.listaDeProfesores = new ArrayList<>();
         this.listaDeCursos = new ArrayList<>();
         this.listaDeInscripciones = new ArrayList<>();
+        this.unaImpresora = new Impresora();
+        this.teclado = new Scanner(System.in);
     }
+
 
     public List<Alumno> getListaDeAlumnos() {
         return listaDeAlumnos;
@@ -53,6 +64,13 @@ public class DigitalHouseManager {
         this.listaDeInscripciones = listaDeInscripciones;
     }
 
+    public Impresora getUnaImpresora() {
+        return unaImpresora;
+    }
+
+    public void setUnaImpresora(Impresora unaImpresora) {
+        this.unaImpresora = unaImpresora;
+    }
 
     /**
      * Metodos para verificar que el codigo no haya sido ingresado antes
@@ -152,13 +170,78 @@ public class DigitalHouseManager {
      * @param cupoMaximoDealumnos
      */
     public void altaCurso(String nombre, Integer codigoCurso, Integer cupoMaximoDealumnos) {
+
         if (!cursoRepetido(codigoCurso)) {
             Curso unCurso = new Curso(nombre, codigoCurso);
             unCurso.setCantidadDeAlumnosPermitidos(cupoMaximoDealumnos);
             listaDeCursos.add(unCurso);
-            System.out.println("Curso ingresado correctamente");
+            System.out.println("===");
+            System.out.println("El curso " + unCurso + " fue ingresado con exito.");
+            ingresarCodigodeGuia(unCurso, unaImpresora);
         } else System.out.println("No se pudo realizar la operacion");
     }
+
+    /**
+     * Metodo para ingresar codigos de guias al curso (para destacado 3)
+     *
+     * @param unCurso
+     * @param unaImpresora
+     */
+    public void ingresarCodigodeGuia(Curso unCurso, Impresora unaImpresora) {
+        String respuesta;
+        System.out.println("Desea ingresar un codigo de guia practica? (pulse cualquier tecla en caso afirmativo o 'N' para finalizar)");
+        respuesta = teclado.next();
+        if (respuesta.equals("N") || respuesta.equals("n")) {
+            System.out.println("No se ingresaron Guias");
+        } else ingresarCodigoPractica(unCurso, unaImpresora);
+
+        System.out.println("Desea ingresar un codigo de guia teorica? (pulse cualquier tecla en caso afirmativo o 'N' para finalizar)");
+        respuesta = teclado.next();
+        if (respuesta.equals("N") || respuesta.equals("n")) {
+            System.out.println("No se ingresaron Guias");
+        } else ingresarCodigoTeorica(unCurso, unaImpresora);
+    }
+
+    public void ingresarCodigoPractica(Curso unCurso, Impresora unaImpresora) {
+        Integer codigo;
+        Boolean masCodigos = true;
+        String respuesta2;
+        while (masCodigos) {
+            System.out.println("A continuacion ingrese los codigos de guias practicas que se utilizaran en el curso");
+            codigo = teclado.nextInt();
+            if (unaImpresora.getMapaDeGuias().containsKey(codigo)) {
+                unCurso.ingresarCodigosDeGuiaPractica(codigo);
+            } else System.out.println("codigo de guia inexistente");
+
+            System.out.println("Desea ingresar otro codigo de guia practica? (pulse cualquier tecla en caso afirmativo o 'N' para finalizaaaar)");
+            respuesta2 = teclado.next();
+            if (respuesta2.equals("N") || respuesta2.equals("n")) {
+                masCodigos = false;
+            }
+        }
+    }
+
+
+    public void ingresarCodigoTeorica(Curso unCurso, Impresora unaImpresora) {
+        Boolean masCodigos = true;
+        Integer codigo = 0;
+        String respuesta2;
+
+        while (masCodigos) {
+            System.out.println("A continuacion ingrese un codigo de guia teorica que se utilizara en el curso");
+            codigo = teclado.nextInt();
+            if (unaImpresora.getMapaDeGuias().containsKey(codigo)) {
+                unCurso.ingresarCodigosDeGuiaTeorica(codigo);
+            } else System.out.println("codigo de guia inexistente");
+
+            System.out.println("Desea ingresar otro codigo de guia teorica? (pulse cualquier tecla en caso afirmativo o 'N' para finalizar)");
+            respuesta2 = teclado.next();
+            if (respuesta2.equals("N") || respuesta2.equals("n")) {
+                masCodigos = false;
+            }
+        }
+    }
+
 
     /**
      * Metodo para dar la baja a un curso
@@ -223,7 +306,7 @@ public class DigitalHouseManager {
     }
 
     /**
-     * Metodo para dar el alta a un/a alumno/a
+     * Metodo para dar el alta a un alumno
      *
      * @param nombre
      * @param apellido
@@ -238,7 +321,25 @@ public class DigitalHouseManager {
     }
 
     /**
+     * Metodo para dar el alta a un alumno con referencias
+     * para Destacado opcion 2
+     *
+     * @param nombre
+     * @param apellido
+     * @param codigoAlumno
+     * @param estudioso
+     */
+    public void altaAlumno(String nombre, String apellido, Integer codigoAlumno, Boolean estudioso) {
+        if (!alumnoRepetido(codigoAlumno)) {
+            Alumno unAlumno = new Alumno(nombre, apellido, codigoAlumno, estudioso);
+            listaDeAlumnos.add(unAlumno);
+            System.out.println("Alumno/a ingresado/a correctamente");
+        } else System.out.println("No se pudo realizar la operacion");
+    }
+
+    /**
      * Metodo para dar la baja a un/a alumno/a
+     * no fue pedido por el enunciado
      *
      * @param codigoAlumno
      */
@@ -258,10 +359,15 @@ public class DigitalHouseManager {
      * @param codigoCurso
      */
     public void inscribirAlumno(Integer codigoAlumno, Integer codigoCurso) {
-        if (buscadorDeCursos(codigoCurso).get(0).agregarUnAlumno(buscadorDeAlumnos(codigoAlumno).get(0))) {
-            Inscripcion nuevaInscripcion = new Inscripcion(buscadorDeAlumnos(codigoAlumno).get(0), buscadorDeCursos(codigoCurso).get(0));
-            listaDeInscripciones.add(nuevaInscripcion);
-            System.out.println("Alumno/a " + buscadorDeAlumnos(codigoAlumno).get(0).getCodigoDeAlumno() + " fue inscripto/a en el curso " + buscadorDeCursos(codigoCurso).get(0).getNombre());
+        if (!buscadorDeCursos(codigoCurso).isEmpty() || !buscadorDeAlumnos(codigoAlumno).isEmpty()) {
+            Curso unCurso = buscadorDeCursos(codigoCurso).get(0);
+            Alumno unAlumno = buscadorDeAlumnos(codigoAlumno).get(0);
+            if (unCurso.agregarUnAlumno(unAlumno)) {
+                Inscripcion nuevaInscripcion = new Inscripcion(unAlumno, unCurso);
+                listaDeInscripciones.add(nuevaInscripcion);
+                System.out.println(unAlumno + " fue inscripto/a en el curso " + unCurso);
+
+            } else System.out.println("Codigo erroneo. No se pudo inscribir");
         }
     }
 
@@ -273,12 +379,17 @@ public class DigitalHouseManager {
      * @param codigoProfesorAdjunto
      */
     public void asignarProfesores(Integer codigoCurso, Integer codigoProfesorTitular, Integer codigoProfesorAdjunto) {
-        if (!(buscadorDeCursos(codigoCurso).isEmpty()) && !(buscadorDeProfesoresTitulares(codigoProfesorTitular).isEmpty())) {
-            buscadorDeCursos(codigoCurso).get(0).setProfesorTitular(buscadorDeProfesoresTitulares(codigoProfesorTitular).get(0));
-        } else System.out.println("No se pudo asignar profesor/a titular");
-        if (!(buscadorDeCursos(codigoCurso).isEmpty()) && !(buscadorDeProfesoresAdjuntos(codigoProfesorAdjunto).isEmpty())) {
-            buscadorDeCursos(codigoCurso).get(0).setProfesorAdjunto(buscadorDeProfesoresAdjuntos(codigoProfesorAdjunto).get(0));
-        } else System.out.println("No se pudo asignar profesor/a adjunto");
+        Curso unCurso = buscadorDeCursos(codigoCurso).get(0);
+        if (!(buscadorDeCursos(codigoCurso).isEmpty()) || !(buscadorDeProfesoresTitulares(codigoProfesorTitular).isEmpty())) {
+            ProfesorTitular unProfesorTitular = buscadorDeProfesoresTitulares(codigoProfesorTitular).get(0);
+            unCurso.setProfesorTitular(unProfesorTitular);
+        } else System.out.println("Error en los datos ingresados. No se pudo asignar profesor/a titular");
+        if (!(buscadorDeCursos(codigoCurso).isEmpty()) || !(buscadorDeProfesoresAdjuntos(codigoProfesorAdjunto).isEmpty())) {
+            ProfesorAdjunto unProfesorAdjunto = buscadorDeProfesoresAdjuntos(codigoProfesorAdjunto).get(0);
+            unCurso.setProfesorAdjunto(unProfesorAdjunto);
+        } else System.out.println("Error en los datos ingresados. No se pudo asignar profesor/a adjunto");
+
     }
+
 
 }

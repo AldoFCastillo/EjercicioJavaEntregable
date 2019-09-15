@@ -1,7 +1,11 @@
 package com.company;
 
+import profesor.ProfesorAdjunto;
+import profesor.ProfesorTitular;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Curso {
 
@@ -11,6 +15,8 @@ public class Curso {
     private ProfesorAdjunto profesorAdjunto;
     private List<Alumno> alumnosInscriptos;
     private Integer cupoMaximoDealumnos;
+    private List<Integer> codigosDeGuiasPracticas;
+    private List<Integer> codigosDeGuiasTeoricas;
 
     /**
      * Constructor de Curso
@@ -20,9 +26,14 @@ public class Curso {
      */
 
     public Curso(String nombre, Integer codigoDeCurso) {
+
         this.nombre = nombre;
         this.codigoDeCurso = codigoDeCurso;
         this.alumnosInscriptos = new ArrayList<>();
+        this.codigosDeGuiasTeoricas = new ArrayList<>();
+        this.codigosDeGuiasPracticas = new ArrayList<>();
+
+
     }
 
     public String getNombre() {
@@ -49,6 +60,17 @@ public class Curso {
         return cupoMaximoDealumnos;
     }
 
+    public Integer getCupoMaximoDealumnos() {
+        return cupoMaximoDealumnos;
+    }
+
+    public List<Integer> getCodigosDeGuiasPracticas() {
+        return codigosDeGuiasPracticas;
+    }
+
+    public List<Integer> getCodigosDeGuiasTeoricas() {
+        return codigosDeGuiasTeoricas;
+    }
 
     public void setCantidadDeAlumnosPermitidos(Integer cantidadDeAlumnosPermitidos) {
         this.cupoMaximoDealumnos = cantidadDeAlumnosPermitidos;
@@ -56,12 +78,12 @@ public class Curso {
 
     public void setProfesorTitular(ProfesorTitular profesorTitular) {
         this.profesorTitular = profesorTitular;
-        System.out.println("Profesor/a titular asignado/a al curso con exito");
+        System.out.println("Profesor/a titular " + profesorTitular + " asignado/a al curso '" + nombre + "' con exito");
     }
 
     public void setProfesorAdjunto(ProfesorAdjunto profesorAdjunto) {
         this.profesorAdjunto = profesorAdjunto;
-        System.out.println("Profesor/a adjunto asignado/a al curso con exito");
+        System.out.println("Profesor/a adjunto " + profesorAdjunto + " asignado/a al curso '" + nombre + "' con exito");
     }
 
     public void setAlumnosInscriptos(List<Alumno> alumnosInscriptos) {
@@ -74,6 +96,14 @@ public class Curso {
 
     public void setCodigoDeCurso(Integer codigoDeCurso) {
         this.codigoDeCurso = codigoDeCurso;
+    }
+
+    public void setCodigosDeGuiasPracticas(Integer codigo) {
+        this.codigosDeGuiasPracticas.add(codigo);
+    }
+
+    public void setCodigosDeGuiasTeoricas(Integer codigo) {
+        this.codigosDeGuiasTeoricas.add(codigo);
     }
 
     @Override
@@ -95,7 +125,6 @@ public class Curso {
     public Boolean agregarUnAlumno(Alumno unAlumno) {
 
         if (!hayCupoDisponible() || alumnoRepetido(unAlumno)) {
-            System.out.println("No pudo realizarse la operacion");
             return false;
         } else {
             alumnosInscriptos.add(unAlumno);
@@ -108,7 +137,7 @@ public class Curso {
      *
      * @return
      */
-    public Boolean hayCupoDisponible() {
+    private Boolean hayCupoDisponible() {
         Boolean hayCupo = true;
         if (!(alumnosInscriptos.size() < cupoMaximoDealumnos)) {
             hayCupo = false;
@@ -123,7 +152,7 @@ public class Curso {
      * @param unAlumno
      * @return
      */
-    public Boolean alumnoRepetido(Alumno unAlumno) {
+    private Boolean alumnoRepetido(Alumno unAlumno) {
         Boolean repetido = false;
         for (Alumno otroAlumno : alumnosInscriptos) {
             if (otroAlumno.equals(unAlumno)) {
@@ -137,20 +166,118 @@ public class Curso {
 
     /**
      * Metodo para eliminar alumnos del curso
+     * no fue pedido en el enunciado
      *
      * @param unAlumno
      */
     public void eliminarAlumno(Alumno unAlumno) {
-        List<Alumno> alumnosAEliminar = new ArrayList<>();
         if (alumnoRepetido(unAlumno)) {
-            alumnosAEliminar.add(unAlumno);
-            alumnosInscriptos.removeAll(alumnosAEliminar);
-            System.out.println("El/la alumno/a se ha eliminado");
+            alumnosInscriptos.remove(unAlumno);
+            System.out.println("El/la alumno/a " + unAlumno + " se ha eliminado");
         } else {
             System.out.println("No pudo realizarse la operacion");
         }
     }
 
+    @Override
+    public String toString() {
+        return "'" + nombre + "'" + " (codigo de curso:" + codigoDeCurso + ")";
+    }
 
+    /**
+     * metodos para ingresar y eliminar odigos de guias en una lista
+     *
+     * @param codigo
+     */
+    public void ingresarCodigosDeGuiaPractica(Integer codigo) {
+        Boolean masCodigos = true;
+        Scanner teclado = new Scanner(System.in);
+        String respuesta;
+        System.out.println("A continuacion ingrese un codigo de guia practica que se utilizara en el curso");
+        while (masCodigos) {
+            codigo = teclado.nextInt();
+            if (!buscadorDeRepetidosPracticas(codigo)) {
+                codigosDeGuiasPracticas.add(codigo);
+                System.out.println("Codigo de guia practica ingresado correctamente");
+                System.out.println("Desea ingresar otro codigo? (pulse cualquier tecla en caso afirmativo o 'N' para finalizar");
+                respuesta = teclado.nextLine();
+                if (respuesta.equals("N") || respuesta.equals("n")) {
+                    masCodigos = false;
+                }
+            } else {
+                System.out.println("Error en el codigo ingresado (repetido o inexistente");
+                System.out.println("Desea ingresar otro codigo? (pulse cualquier tecla en caso afirmativo o 'N' para finalizar");
+                respuesta = teclado.nextLine();
+                if (respuesta.equals("N") || respuesta.equals("n")) {
+                    masCodigos = false;
+                }
+            }
+        }
+    }
+
+
+    public void ingresarCodigosDeGuiaTeorica(Integer codigo) {
+        Boolean masCodigos = true;
+        Scanner teclado = new Scanner(System.in);
+        String respuesta;
+        System.out.println("A continuacion ingrese un codigo de guia teorica que se utilizara en el curso");
+        while (masCodigos) {
+            codigo = teclado.nextInt();
+
+            if (!buscadorDeRepetidosTeoricas(codigo)) {
+                codigosDeGuiasTeoricas.add(codigo);
+                System.out.println("Codigo de guia teorica ingresado correctamente");
+                System.out.println("Desea ingresar otro codigo? (pulse cualquier tecla en caso afirmativo o 'N' para finalizar");
+                respuesta = teclado.nextLine();
+                if (respuesta.equals("N") || respuesta.equals("n")) {
+                    masCodigos = false;
+                }
+            } else {
+                System.out.println("Error en el codigo ingresado (repetido o inexistente");
+                System.out.println("Desea ingresar otro codigo? (pulse cualquier tecla en caso afirmativo o 'N' para finalizar");
+                respuesta = teclado.nextLine();
+                if (respuesta.equals("N") || respuesta.equals("n")) {
+                    masCodigos = false;
+                }
+            }
+
+        }
+    }
+
+
+    public void eliminarCodigoDeGuiaPractica(Integer codigo) {
+        if (buscadorDeRepetidosPracticas(codigo)) {
+            codigosDeGuiasPracticas.remove(codigo);
+        } else System.out.println("No se encontro el codigo");
+    }
+
+    public void eliminarCodigoDeGuiaTeorica(Integer codigo) {
+        if (buscadorDeRepetidosTeoricas(codigo)) {
+            codigosDeGuiasTeoricas.remove(codigo);
+        } else System.out.println("No se encontro el codigo");
+    }
+
+
+    public Boolean buscadorDeRepetidosPracticas(Integer codigo) {
+        Boolean repetido = false;
+        for (Integer unCodigo : codigosDeGuiasPracticas) {
+            if (codigo.equals(unCodigo)) {
+                repetido = true;
+                break;
+            }
+        }
+        return repetido;
+    }
+
+    public Boolean buscadorDeRepetidosTeoricas(Integer codigo) {
+        Boolean repetido = false;
+        for (Integer unCodigo : codigosDeGuiasTeoricas) {
+            if (codigo.equals(unCodigo)) {
+                repetido = true;
+                break;
+            }
+        }
+        return repetido;
+    }
 }
 

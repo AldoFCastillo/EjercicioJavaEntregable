@@ -10,6 +10,7 @@ public class Inscripcion {
 
     /**
      * Constructor de Inscripcion
+     *
      * @param alumno
      * @param curso
      */
@@ -43,4 +44,6 @@ public class Inscripcion {
     public void setFechaDelDia(Date fechaDelDia) {
         this.fechaDelDia = fechaDelDia;
     }
+
+
 }

@@ -1,4 +1,4 @@
-package com.company;
+package profesor;
 
 public class ProfesorTitular extends Profesor {
 

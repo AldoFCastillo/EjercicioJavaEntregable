@@ -1,4 +1,4 @@
-package com.company;
+package profesor;
 
 public class ProfesorAdjunto extends Profesor {
 
@@ -6,6 +6,7 @@ public class ProfesorAdjunto extends Profesor {
 
     /**
      * Constructor de ProfesorAdjunto
+     *
      * @param nombre
      * @param apellido
      * @param antiguedad

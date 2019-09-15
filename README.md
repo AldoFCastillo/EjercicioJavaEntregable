@@ -1,2 +1,1 @@
-# Entregable
-Ejercicio entregable Java
+# ENTREGABLE2.0
